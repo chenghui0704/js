@@ -110,6 +110,7 @@ util = {
 			return (r[2]);
 		return null;
 	},
+	//将long型时间转换成易阅读式的string型
 	getDateTime : function(date) {
 		var date = new Date(date);
 		var now = "";
@@ -121,6 +122,7 @@ util = {
 		now += date.getSeconds() + "";
 		return now;
 	},
+	//构建url参数
 	buildUrlParameter:function(map){
 		var url="";
 		var index=0;
