@@ -1,7 +1,13 @@
+
+//csrf
+//var header = $("meta[name='_csrf_name']").attr("content");
+//var token = $("meta[name='_csrf']").attr("content");
+
 	<script>
 		function ajaxFileUpload() {
 		    $.ajaxFileUpload({
-		            url: 'Upload',
+		    	    //url:'upload?' + header + '=' + token,
+		            url: 'upload',
 		            secureuri: false,
 		            fileElementId: 'file',
 		            dataType: 'text',
