@@ -110,7 +110,7 @@ util = {
 			return (r[2]);
 		return null;
 	},
-	//将long型时间转换成易阅读式的string型
+	//将long型时间转换成yyyy-mm-dd hh:mm:ss格式
 	getDateTime : function(date) {
 		var date = new Date(date);
 		var now = "";
@@ -122,7 +122,7 @@ util = {
 		now += date.getSeconds() + "";
 		return now;
 	},
-	//构建url参数
+	//将map型数据转换成url的parameter
 	buildUrlParameter:function(map){
 		var url="";
 		var index=0;
@@ -134,6 +134,20 @@ util = {
 			index++;
 		}
 		return url;
+	},
+	//将与url匹配的链接高亮显示
+	highlightLink:function(node){
+		var url=location.href.split(/\?/)[0];
+		var index=url.lastIndexOf("/");
+		var p=url.substring(index+1);
+		$(node).each(function(){
+			if(this.href.match(p)){
+				$(this).css({
+					"color":'#269abc',
+					"background-color": "#f5f5f5"
+				});
+			}
+		});
 	}
 };
 log = function(text) {
