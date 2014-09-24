@@ -1,24 +1,22 @@
-
-//csrf
-//var header = $("meta[name='_csrf_name']").attr("content");
-//var token = $("meta[name='_csrf']").attr("content");
-
 	<script>
 		function ajaxFileUpload() {
-		    $.ajaxFileUpload({
-		    	    //url:'upload?' + header + '=' + token,
-		            url: 'upload',
-		            secureuri: false,
-		            fileElementId: 'file',
-		            dataType: 'text',
-		            success: function(data, status) {
-		           		var _json=data.replace(/<pre.*?>(.*?)<\/pre>/ig,function($0,$1){return $1});
-		           		var json=JSON.parse(_json);
-		            },
-		            error: function(data, status, e) {;
-		            }
-		        });
-		    return false;
+			//获取csrf值
+			//var header = $("meta[name='_csrf_name']").attr("content");
+			//var token = $("meta[name='_csrf']").attr("content");
+			$.ajaxFileUpload({
+				//url:'upload?' + header + '=' + token,
+				url: 'upload',
+				secureuri: false,
+				fileElementId: 'file',
+				dataType: 'text',
+				success: function(data, status) {
+				   	var _json=data.replace(/<pre.*?>(.*?)<\/pre>/ig,function($0,$1){return $1});
+				   	var json=JSON.parse(_json);
+				},
+				error: function(data, status, e) {;
+				}
+			});
+			return false;
 		}
 	</script>
 
