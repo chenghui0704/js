@@ -1,18 +1,20 @@
-	function ajaxFileUpload() {
-	    $.ajaxFileUpload({
-	            url: 'Upload',
-	            secureuri: false,
-	            fileElementId: 'file',
-	            dataType: 'text',
-	            success: function(data, status) {
-	           		var _json=data.replace(/<pre.*?>(.*?)<\/pre>/ig,function($0,$1){return $1});
-	           		var json=JSON.parse(_json);
-	            },
-	            error: function(data, status, e) {;
-	            }
-	        });
-	    return false;
-	}
+	<script>
+		function ajaxFileUpload() {
+		    $.ajaxFileUpload({
+		            url: 'Upload',
+		            secureuri: false,
+		            fileElementId: 'file',
+		            dataType: 'text',
+		            success: function(data, status) {
+		           		var _json=data.replace(/<pre.*?>(.*?)<\/pre>/ig,function($0,$1){return $1});
+		           		var json=JSON.parse(_json);
+		            },
+		            error: function(data, status, e) {;
+		            }
+		        });
+		    return false;
+		}
+	</script>
 
 
 	<form name="form" action="" method="POST"
