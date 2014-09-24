@@ -1,0 +1,3 @@
+$(".pTextColor").colorpicker({
+	fillcolor : true
+});
