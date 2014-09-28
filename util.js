@@ -148,6 +148,10 @@ util = {
 				});
 			}
 		});
+	},
+	//判断是否为数字
+	isNumber:function(val){
+		return /^\d+$/ig.test(val);
 	}
 };
 log = function(text) {
