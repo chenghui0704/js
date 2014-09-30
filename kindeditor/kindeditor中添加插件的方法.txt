@@ -1,0 +1,10 @@
+在kindeditor\plugins\下新增插件的js，如名字为xx\xx.js
+
+在kindeditor\themes\default\default.css中增加相应的css：
+	.ke-icon-xx{
+		background-position: 0px -1072px;//16的倍数
+		width: 16px;
+		height: 16px;
+	}
+增加Kindeditor.lang({xx:'description'});
+var options={...//此处增加,'xx'};editor = K.create('#editor_id', options);
