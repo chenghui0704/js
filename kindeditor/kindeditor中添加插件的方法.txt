@@ -7,4 +7,6 @@
 		height: 16px;
 	}
 增加Kindeditor.lang({xx:'description'});
-var options={...//此处增加,'xx'};editor = K.create('#editor_id', options);
+
+var options={...//此处增加,'xx'};
+editor = K.create('#editor_id', options);
