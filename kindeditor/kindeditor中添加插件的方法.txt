@@ -8,5 +8,12 @@
 	}
 增加Kindeditor.lang({xx:'description'});
 
-var options={...//此处增加,'xx'};
-editor = K.create('#editor_id', options);
+var options={
+items: [
+...,
+//此处增加'xx'
+],
+filterMode:false,
+wellFormatMode:false
+};
+editor = K.create('#editor', options);
