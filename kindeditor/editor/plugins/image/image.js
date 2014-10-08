@@ -13,7 +13,7 @@ KindEditor.plugin('image', function(K) {
 		allowImageRemote = K.undef(self.allowImageRemote, true),
 		formatUploadUrl = K.undef(self.formatUploadUrl, true),
 		allowFileManager = K.undef(self.allowFileManager, false),
-		uploadJson = K.undef(self.uploadJson, self.basePath + 'php/upload_json.php'),
+		uploadJson = K.undef(self.uploadJson, self.basePath + '../../file/uploadimage.do'),
 		imageTabIndex = K.undef(self.imageTabIndex, 0),
 		imgPath = self.pluginsPath + 'image/images/',
 		extraParams = K.undef(self.extraFileUploadParams, {}),
@@ -74,19 +74,26 @@ KindEditor.plugin('image', function(K) {
 			//local upload - start
 			'<div class="tab2" style="display:none;">',
 			'<iframe name="' + target + '" style="display:none;"></iframe>',
-			'<form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data" target="' + target + '" action="' + K.addParam(uploadJson, 'dir=image') + '">',
-			//file
-			'<div class="ke-dialog-row">',
-			hiddenElements.join(''),
-			'<label style="width:60px;">' + lang.localUrl + '</label>',
-			'<input type="text" name="localUrl" class="ke-input-text" tabindex="-1" style="width:200px;" readonly="true" /> &nbsp;',
-			'<input type="button" class="ke-upload-button" value="' + lang.upload + '" />',
-			'</div>',
-			'</form>',
+			// '<form class="ke-upload-area ke-form" method="post" enctype="multipart/form-data" target="' + target + '" action="' + K.addParam(uploadJson, 'dir=image') + '">',
+			// //file
+			// '<div class="ke-dialog-row">',
+			// hiddenElements.join(''),
+			// '<label style="width:60px;">' + lang.localUrl + '</label>',
+			// '<input type="text" name="localUrl" class="ke-input-text" tabindex="-1" style="width:200px;display:hidden" readonly="true" /> &nbsp;',
+			// '<input type="button" class="ke-upload-button" value="' + lang.upload + '" style="display:hidden"/>',
+			// '</div>',
+			// '</form>',
+			'<form name="form" action="" method="POST" enctype="multipart/form-data">',
+	        '<input name="file" id="file2" type="file" />',
+	        '<button class="button" id="buttonUpload2" onclick="return ajaxFileUpload2();">上传</button>',
+	        '<input type="hidden" value="" id="hiddenImage"/>',
+	        '<span id="imageTip">图片未上传</span>',
+	        '</form>',
 			'</div>',
 			//local upload - end
 			'</div>'
 		].join('');
+		
 		var dialogWidth = showLocal || allowFileManager ? 450 : 400,
 			dialogHeight = showLocal && showRemote ? 300 : 250;
 		var dialog = self.createDialog({
@@ -98,19 +105,20 @@ KindEditor.plugin('image', function(K) {
 			yesBtn : {
 				name : self.lang('yes'),
 				click : function(e) {
-					// Bugfix: http://code.google.com/p/kindeditor/issues/detail?id=319
 					if (dialog.isLoading) {
 						return;
 					}
 					// insert local image
 					if (showLocal && showRemote && tabs && tabs.selectedIndex === 1 || !showRemote) {
-						if (uploadbutton.fileBox.val() == '') {
-							alert(self.lang('pleaseSelectFile'));
+						var pic=$("#hiddenImage").val();
+						if(pic == ''){
+							alert('必须先上传文件');
 							return;
 						}
-						dialog.showLoading(self.lang('uploadLoading'));
-						uploadbutton.submit();
-						localUrlBox.val('');
+						editor.appendHtml(pic);
+						$("#hiddenImage").val('');
+						$("#imageTip").html("图片未上传");
+						dialog.remove();
 						return;
 					}
 					// insert remote image
@@ -182,41 +190,41 @@ KindEditor.plugin('image', function(K) {
 			K('.tab2', div).show();
 		}
 
-		var uploadbutton = K.uploadbutton({
-			button : K('.ke-upload-button', div)[0],
-			fieldName : filePostName,
-			form : K('.ke-form', div),
-			target : target,
-			width: 60,
-			afterUpload : function(data) {
-				dialog.hideLoading();
-				if (data.error === 0) {
-					var url = data.url;
-					if (formatUploadUrl) {
-						url = K.formatUrl(url, 'absolute');
-					}
-					if (self.afterUpload) {
-						self.afterUpload.call(self, url, data, name);
-					}
-					if (!fillDescAfterUploadImage) {
-						clickFn.call(self, url, data.title, data.width, data.height, data.border, data.align);
-					} else {
-						K(".ke-dialog-row #remoteUrl", div).val(url);
-						K(".ke-tabs-li", div)[0].click();
-						K(".ke-refresh-btn", div).click();
-					}
-				} else {
-					alert(data.message);
-				}
-			},
-			afterError : function(html) {
-				dialog.hideLoading();
-				self.errorDialog(html);
-			}
-		});
-		uploadbutton.fileBox.change(function(e) {
-			localUrlBox.val(uploadbutton.fileBox.val());
-		});
+		// var uploadbutton = K.uploadbutton({
+		// 	button : K('.ke-upload-button', div)[0],
+		// 	fieldName : filePostName,
+		// 	form : K('.ke-form', div),
+		// 	target : target,
+		// 	width: 60,
+		// 	afterUpload : function(data) {
+		// 		dialog.hideLoading();
+		// 		if (data.error === 0) {
+		// 			var url = data.url;
+		// 			if (formatUploadUrl) {
+		// 				url = K.formatUrl(url, 'absolute');
+		// 			}
+		// 			if (self.afterUpload) {
+		// 				self.afterUpload.call(self, url, data, name);
+		// 			}
+		// 			if (!fillDescAfterUploadImage) {
+		// 				clickFn.call(self, url, data.title, data.width, data.height, data.border, data.align);
+		// 			} else {
+		// 				K(".ke-dialog-row #remoteUrl", div).val(url);
+		// 				K(".ke-tabs-li", div)[0].click();
+		// 				K(".ke-refresh-btn", div).click();
+		// 			}
+		// 		} else {
+		// 			alert(data.message);
+		// 		}
+		// 	},
+		// 	afterError : function(html) {
+		// 		dialog.hideLoading();
+		// 		self.errorDialog(html);
+		// 	}
+		// });
+		// uploadbutton.fileBox.change(function(e) {
+		// 	localUrlBox.val(uploadbutton.fileBox.val());
+		// });
 		if (allowFileManager) {
 			viewServerBtn.click(function(e) {
 				self.loadPlugin('filemanager', function() {
@@ -316,3 +324,26 @@ KindEditor.plugin('image', function(K) {
 	};
 	self.clickToolbar(name, self.plugin.image.edit);
 });
+
+
+function ajaxFileUpload2() {
+	if($("#file2").val()==''){
+		alert("未上传图片");
+		return false;
+	}
+			$.ajaxFileUpload({
+				url: '../file/uploadimage.json',
+				secureuri: false,
+				fileElementId: 'file2',
+				dataType: 'text',
+				success: function(data, status) {
+				   	var _json=data.replace(/<pre.*?>(.*?)<\/pre>/ig,function($0,$1){return $1});
+				   	var pic="<img src='"+JSON.parse(_json).imageUrl+"'/>";
+				   	$("#hiddenImage").val(pic);
+				   	$("#imageTip").html("图片已上传");
+				},
+				error: function(data, status, e) {;
+				}
+			});
+			return false;
+		}
