@@ -140,6 +140,8 @@ util = {
 		var url=location.href.split(/\?/)[0];
 		var index=url.lastIndexOf("/");
 		var p=url.substring(index+1);
+		if(p=="")
+			return;
 		$(node).each(function(){
 			if(this.href.match(p)){
 				$(this).css({
