@@ -110,6 +110,20 @@ util = {
 			return (r[2]);
 		return null;
 	},
+	// 替换url中的指定参数值
+	replaceQueryString : function(key,value) {
+		var url=window.location.origin+window.location.pathname;
+		var splits=window.location.search.substring(1).split("&");
+		for(var i in splits){
+			if(i==0) url+="?";
+			var _splits=splits[i].split("=");
+			if(_splits[0]==key) 
+				url+="&"+key+"="+value;
+			else
+				url+="&"+splits[i];
+		}
+		return url;
+	},
 	//将long型时间转换成yyyy-mm-dd hh:mm:ss格式
 	getDateTime : function(date) {
 		var date = new Date(date);
