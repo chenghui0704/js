@@ -114,13 +114,27 @@ util = {
 	replaceQueryString : function(key,value) {
 		var url=window.location.origin+window.location.pathname;
 		var splits=window.location.search.substring(1).split("&");
-		for(var i in splits){
-			if(i==0) url+="?";
-			var _splits=splits[i].split("=");
-			if(_splits[0]==key) 
-				url+="&"+key+"="+value;
-			else
-				url+="&"+splits[i];
+		var b=false;
+		var prefix="?";
+		if(splits.length!=1||splits[0]!="")
+			for(var i in splits){
+				if(i==0) {
+					url+="?";
+					prefix="";
+				}else{
+					prefix="&";
+				}
+				var _splits=splits[i].split("=");
+				if(_splits[0]==key){
+					url+=prefix+key+"="+value;
+					b=true;
+				}
+				else
+					url+=prefix+splits[i];
+			}
+		//若参数中无此key，则添加到url中
+		if(b==false){
+			url+=prefix+key+"="+value;
 		}
 		return url;
 	},
