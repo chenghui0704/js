@@ -140,15 +140,36 @@ util = {
 	},
 	//将long型时间转换成yyyy-mm-dd hh:mm:ss格式
 	getDateTime : function(date) {
-		var date = new Date(date);
-		var now = "";
-		now = date.getFullYear() + "-";
-		now += (date.getMonth() + 1) + "-";
-		now += date.getDate() + " ";
-		now += date.getHours() + ":";
-		now += date.getMinutes() + ":";
-		now += date.getSeconds() + "";
-		return now;
+		var ts = date || 0;
+		var t,y,m,d,h,i,s;
+		t = ts ? new Date(ts) : new Date();
+		y = t.getFullYear();
+		m = t.getMonth()+1;
+		d = t.getDate();
+		h = t.getHours();
+		i = t.getMinutes();
+		s = t.getSeconds();
+		return y+'-'+(m<10?'0'+m:m)+'-'+(d<10?'0'+d:d)+' '+(h<10?'0'+h:h)+':'+(i<10?'0'+i:i)+':'+(s<10?'0'+s:s);
+	},
+	//将long型时间转换成yyyy-mm-dd格式
+	getDate : function(date) {
+		var ts = date || 0;
+		var t,y,m,d;
+		t = ts ? new Date(ts) : new Date();
+		y = t.getFullYear();
+		m = t.getMonth()+1;
+		d = t.getDate();
+		return y+'-'+(m<10?'0'+m:m)+'-'+(d<10?'0'+d:d);
+	},
+	//将long型时间转换成hh:mm:ss格式
+	getTime : function(date) {
+		var ts = date || 0;
+		var t,y,m,d,h,i,s;
+		t = ts ? new Date(ts) : new Date();
+		h = t.getHours();
+		i = t.getMinutes();
+		s = t.getSeconds();
+		return (h<10?'0'+h:h)+':'+(i<10?'0'+i:i)+':'+(s<10?'0'+s:s);
 	},
 	//将map型数据转换成url的parameter
 	buildUrlParameter:function(map){
