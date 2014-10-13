@@ -73,3 +73,7 @@ Array.prototype.removevalue = function (val) {
         this.splice(index, 1);  
     }  
 };  
+
+//Display or hide the matched elements with a sliding motion.
+$("").slideToggle();
+
