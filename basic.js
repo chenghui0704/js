@@ -90,40 +90,12 @@ var numbers = foo.map(Number);
 var strings = numbers.map(String);
 
 
+//节点加载后执行
+$(document).ready(function() {
+//
+})
 
-//检查变量类型
-//Returns true if the value is a ...
-
-is_string:    string
-
-is_number:    number
-
-is_boolean:   boolean
-
-is_date:      date (all types: date-only, time-only and date-time)
-
-is_method:    method
-
-is_transform: transform
-
-is_macro:     macro
-
-is_hash:      hash
-
-is_hash_ex:   extended hash (i.e. supports ?keys and ?values)
-
-is_sequence:  sequence
-
-is_collection:collection
-
-is_enumerable:sequence or collection
-
-is_indexable: sequence
-
-is_directive: macro or transform
-
-is_node:      node
-
-
-
-
+//查找项复位
+var type=util.getQueryString('type');
+$("#searchKey").val(type==null?1:type);
+//end
