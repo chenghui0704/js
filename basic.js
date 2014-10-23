@@ -77,3 +77,53 @@ Array.prototype.removevalue = function (val) {
 //Display or hide the matched elements with a sliding motion.
 $("").slideToggle();
 
+
+//跳转到指定页面
+location.href='url';
+
+//string转number
+var foo = ['1', '4', '2', '10', '3'];
+var numbers = foo.map(function(num) {return parseInt(num, 10)});
+
+var numbers = foo.map(Number);
+//number转string
+var strings = numbers.map(String);
+
+
+
+//检查变量类型
+//Returns true if the value is a ...
+
+is_string:    string
+
+is_number:    number
+
+is_boolean:   boolean
+
+is_date:      date (all types: date-only, time-only and date-time)
+
+is_method:    method
+
+is_transform: transform
+
+is_macro:     macro
+
+is_hash:      hash
+
+is_hash_ex:   extended hash (i.e. supports ?keys and ?values)
+
+is_sequence:  sequence
+
+is_collection:collection
+
+is_enumerable:sequence or collection
+
+is_indexable: sequence
+
+is_directive: macro or transform
+
+is_node:      node
+
+
+
+
