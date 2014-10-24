@@ -16,7 +16,7 @@ util = {
 	ajaxget : function(url, json, callback) {
 		$.ajax({
 			type : "GET",
-			// 将get方法设置为同步
+			//将get方法设置为同步
 			async : false,
 			url : url,
 			dataType : "json",
@@ -118,11 +118,11 @@ util = {
 		var prefix="?";
 		if(splits.length!=1||splits[0]!="")
 			for(var i in splits){
+				//i:'0'
+				//'0'==0:true
 				if(i==0) {
 					url+="?";
 					prefix="";
-				}else{
-					prefix="&";
 				}
 				var _splits=splits[i].split("=");
 				if(_splits[0]==key){
@@ -131,6 +131,7 @@ util = {
 				}
 				else
 					url+=prefix+splits[i];
+				prefix="&";
 			}
 		//若参数中无此key，则添加到url中
 		if(b==false){
@@ -171,11 +172,22 @@ util = {
 		s = t.getSeconds();
 		return (h<10?'0'+h:h)+':'+(i<10?'0'+i:i)+':'+(s<10?'0'+s:s);
 	},
+	getDayAndHourAndMinute : function(date) {
+		var ts = date || 0;
+		var t,y,m,d,h,i,s;
+		t = ts ? new Date(ts) : new Date();
+		h = t.getHours();
+		i = t.getMinutes();
+		d = t.getDate();
+		return d+"/"+(h<10?'0'+h:h)+':'+(i<10?'0'+i:i);
+	},
 	//将map型数据转换成url的parameter
-	buildUrlParameter:function(map){
+	buildUrlParameter:function(map){		
 		var url="";
 		var index=0;
 		for(var i in map){
+			if(!map[i])
+				continue;
 			if(index==0)
 				url+=i+"="+map[i];
 			else
@@ -203,6 +215,58 @@ util = {
 	//判断是否为数字
 	isNumber:function(val){
 		return /^\d+$/ig.test(val);
+	},
+	//生成翻页符
+	//当前数据个数
+	//pageSize和currentPage的url参数名
+	//翻页符节点的ID：'#node'
+	setPageIdentifier:function(currentSize,pageSizeName,currentPageName,nodeName){
+		var pageSize;
+		var a=this.getQueryString(pageSizeName);
+		if(a==null||isNaN(Number(a)))
+			pageSize=10;
+		else 
+			pageSize=parseInt(a);
+
+		var currentPage;
+		var b=this.getQueryString(currentPageName);
+		if(b==null||isNaN(Number(b)))
+			currentPage=1;
+		else 
+			currentPage=parseInt(b);
+
+		//当currentPage大于pageIdentifierCount时，出现翻页符
+		//上一页和下一页不受影响
+		var pageIdentifierCount=3;
+
+		var lastPage=true;
+		var nextPage=false;
+		if(pageSize==currentSize)
+			nextPage=true;
+		
+		if(currentPage==1)
+			lastPage=false;
+		
+		if(lastPage==true){
+			var url=this.replaceQueryString(currentPageName,currentPage-1);
+			$(nodeName).append("<li><a href='"+url+"'>上一页</a></li>");
+		}
+
+		if(currentPage>pageIdentifierCount){
+			for(var i=currentPage-pageIdentifierCount;i<currentPage;i++){
+				var url=this.replaceQueryString(currentPageName,i);
+				$(nodeName).append("<li><a href='"+url+"'>"+i+"</a></li>");
+			}
+		}
+
+		//对当前页加标记
+		$(nodeName).append("<li><a class='currentPage'>"+currentPage+"</a></li>");
+
+		if(nextPage==true){
+			var url=this.replaceQueryString(currentPageName,currentPage+1);
+			$(nodeName).append("<li><a href='"+url+"'>下一页</a></li>");
+		}
+			
 	}
 };
 log = function(text) {
