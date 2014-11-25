@@ -1,0 +1,20 @@
+//必须引入jquery－ui插件
+http://jqueryui.com/
+
+http://api.jqueryui.com/datepicker
+
+$(document).ready(function() {
+	//初始化
+	$("#datepicker1").datepicker();
+	//$("#datepicker1").datepicker("setDate","10/12/2012");
+	//设置当前日期
+	$("#datepicker1").datepicker("setDate",new Date());
+});
+
+
+
+//前一天
+$("#datepicker1").datepicker();
+$("#datepicker1").datepicker("setDate",new Date(Date.now()-24*3600*1000));
+$("#datepicker2").datepicker();
+$("#datepicker2").datepicker("setDate",new Date());
