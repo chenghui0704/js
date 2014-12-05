@@ -18,12 +18,17 @@
 			});
 			return false;
 		}
+		$("#chooseFile").click(function(event) {
+			$("#file").click();
+		}); 
 	</script>
 
 
 	<form name="form" action="" method="POST"
 			enctype="multipart/form-data">
-			<input name="file" id="file" type="file" />
+			<!-- 可以将原input隐藏，点击新的按钮时激活原input对象的点击事件 -->
+			<a href="#" class="button glow button-rounded button-flat-primary" id="chooseFile">press me</a>
+			<input name="file" id="file" type="file" style="display:none"/>
 			<button class="button" id="buttonUpload"
 				onclick="return ajaxFileUpload();">Upload</button>
 	</form>
