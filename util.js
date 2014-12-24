@@ -1,19 +1,20 @@
-util = {
+(function(util,$,undefined){
 	// json传入的必须是字典数据，不要传入字符串
-	ajax : function(url, json, callback) {
+	util.ajax = function(url, json, callback) {
 		$.ajax({
 			type : "POST",
 			// 默认为异步
 			async : true,
 			url : url,
 			dataType : "json",
-			data : JSON.stringify(json),
-			contentType : 'application/json; charset=utf-8',
+			data:json,
+			//data : JSON.stringify(json),
+			//contentType : 'application/json; charset=utf-8',
 			success : callback,
 		});
-	},
+	};
 	// json传入的必须是字典数据，不要传入字符串
-	ajaxget : function(url, json, callback) {
+	util.ajaxget = function(url, json, callback) {
 		$.ajax({
 			type : "GET",
 			//将get方法设置为同步
@@ -23,9 +24,9 @@ util = {
 			data : json,
 			success : callback,
 		});
-	},
+	};
 	// 数组是否含有指定元素
-	arrayContains : function(arr, str) {
+	util.arrayContains = function(arr, str) {
 		var i = arr.length;
 		while (i--) {
 			if (arr[i] === str) {
@@ -33,9 +34,9 @@ util = {
 			}
 		}
 		return false;
-	},
+	};
 	// 数组中指定字符串的位置
-	arrayIndex : function(arr, str) {
+	util.arrayIndex = function(arr, str) {
 		var i = arr.length;
 		while (i--) {
 			if (arr[i] === str) {
@@ -43,9 +44,9 @@ util = {
 			}
 		}
 		return -1;
-	},
+	};
 	// 含有map的数组中指定map的位置
-	arrayMapIndex : function(arr, map) {
+	util.arrayMapIndex = function(arr, map) {
 		var i = arr.length;
 		while (i--) {
 			if (util.mapCompare(arr[i], map)) {
@@ -53,9 +54,9 @@ util = {
 			}
 		}
 		return -1;
-	},
+	};
 	// 数组删除元素
-	arrayPop : function(arr, dx) {
+	util.arrayPop = function(arr, dx) {
 		if (isNaN(dx) || dx > this.length) {
 			return false;
 		}
@@ -65,9 +66,9 @@ util = {
 			}
 		}
 		arr.length -= 1
-	},
+	};
 	// 比较两个map是否相等
-	mapCompare : function(map1, map2) {
+	util.mapCompare = function(map1, map2) {
 		for ( var i in map1)
 			if (map1[i] != map2[i])
 				return false;
@@ -75,43 +76,43 @@ util = {
 			if (map2[i] != map1[i])
 				return false;
 		return true;
-	},
+	};
 	// 计算时间差，日期差
-	timeDifference : function(startTime, endTime) {
-		var diffDetail = {};
+	util.timeDifference = function(startTime, endTime) {
+		var diffDetail         = {};
 		// 毫秒差
-		diffDetail.msDiff = endTime - startTime;
+		diffDetail.msDiff      = endTime - startTime;
 		// 分钟差
 		diffDetail.minutesDiff = Math.floor(diffDetail.msDiff / (60 * 1000));
 		// 小时差
-		diffDetail.hoursDiff = Math.floor(diffDetail.minutesDiff / 60);
+		diffDetail.hoursDiff   = Math.floor(diffDetail.minutesDiff / 60);
 		// 天数差
-		diffDetail.daysDiff = Math.floor(diffDetail.hoursDiff / 24);
+		diffDetail.daysDiff    = Math.floor(diffDetail.hoursDiff / 24);
 		return diffDetail;
-	},
+	};
 	// 睡眠多少时间
-	sleep : function(seconds) {
+	util.sleep = function(seconds) {
 		var milliSeconds = seconds * 1000;
-		var startTime = new Date().getTime();
+		var startTime    = new Date().getTime();
 		while (new Date().getTime() < startTime + milliSeconds)
 			;
-	},
+	};
 	// 判断变量类型
-	getObjectType : function(o) {
+	util.getObjectType = function(o) {
 		var _t;
 		return ((_t = typeof (o)) == "object" ? Object.prototype.toString.call(
 				o).slice(8, -1) : _t).toLowerCase();
-	},
+	};
 	// 获取url中的指定参数
-	getQueryString : function(name) {
+	util.getQueryString = function(name) {
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-		var r = window.location.search.substr(1).match(reg);
+		var r   = window.location.search.substr(1).match(reg);
 		if (r != null)
 			return (r[2]);
 		return null;
-	},
+	};
 	// 替换url中的指定参数值
-	replaceQueryString : function(key,value) {
+	util.replaceQueryString = function(key,value) {
 		var url=window.location.origin+window.location.pathname;
 		var splits=window.location.search.substring(1).split("&");
 		var b=false;
@@ -138,9 +139,9 @@ util = {
 			url+=prefix+key+"="+value;
 		}
 		return url;
-	},
+	};
 	//将long型时间转换成yyyy-mm-dd hh:mm:ss格式
-	getDateTime : function(date) {
+	util.getDateTime = function(date) {
 		var ts = date || 0;
 		var t,y,m,d,h,i,s;
 		t = ts ? new Date(ts) : new Date();
@@ -151,9 +152,9 @@ util = {
 		i = t.getMinutes();
 		s = t.getSeconds();
 		return y+'-'+(m<10?'0'+m:m)+'-'+(d<10?'0'+d:d)+' '+(h<10?'0'+h:h)+':'+(i<10?'0'+i:i)+':'+(s<10?'0'+s:s);
-	},
+	};
 	//将long型时间转换成yyyy-mm-dd格式
-	getDate : function(date) {
+	util.getDate = function(date) {
 		var ts = date || 0;
 		var t,y,m,d;
 		t = ts ? new Date(ts) : new Date();
@@ -161,9 +162,9 @@ util = {
 		m = t.getMonth()+1;
 		d = t.getDate();
 		return y+'-'+(m<10?'0'+m:m)+'-'+(d<10?'0'+d:d);
-	},
+	};
 	//将long型时间转换成hh:mm:ss格式
-	getTime : function(date) {
+	util.getTime = function(date) {
 		var ts = date || 0;
 		var t,y,m,d,h,i,s;
 		t = ts ? new Date(ts) : new Date();
@@ -171,8 +172,8 @@ util = {
 		i = t.getMinutes();
 		s = t.getSeconds();
 		return (h<10?'0'+h:h)+':'+(i<10?'0'+i:i)+':'+(s<10?'0'+s:s);
-	},
-	getDayAndHourAndMinute : function(date) {
+	};
+	util.getDayAndHourAndMinute = function(date) {
 		var ts = date || 0;
 		var t,y,m,d,h,i,s;
 		t = ts ? new Date(ts) : new Date();
@@ -180,9 +181,9 @@ util = {
 		i = t.getMinutes();
 		d = t.getDate();
 		return d+"/"+(h<10?'0'+h:h)+':'+(i<10?'0'+i:i);
-	},
+	};
 	//将map型数据转换成url的parameter
-	buildUrlParameter:function(map){		
+	util.buildUrlParameter = function(map){		
 		var url="";
 		var index=0;
 		for(var i in map){
@@ -195,9 +196,9 @@ util = {
 			index++;
 		}
 		return url;
-	},
+	};
 	//将与url匹配的链接高亮显示
-	highlightLink:function(node){
+	util.highlightLink = function(node){
 		var url=location.href.split(/\?/)[0];
 		var index=url.lastIndexOf("/");
 		var p=url.substring(index+1);
@@ -211,16 +212,16 @@ util = {
 				});
 			}
 		});
-	},
+	};
 	//判断是否为数字
-	isNumber:function(val){
+	util.isNumber = function(val){
 		return /^\d+$/ig.test(val);
-	},
+	};
 	//生成翻页符
 	//当前数据个数
 	//pageSize和currentPage的url参数名
 	//翻页符节点的ID：'#node'
-	setPageIdentifier:function(currentSize,pageSizeName,currentPageName,nodeName){
+	util.setPageIdentifier = function(currentSize,pageSizeName,currentPageName,nodeName){
 		var pageSize;
 		var a=this.getQueryString(pageSizeName);
 		if(a==null||isNaN(Number(a)))
@@ -267,8 +268,10 @@ util = {
 			$(nodeName).append("<li><a href='"+url+"'>下一页</a></li>");
 		}
 			
-	}
-};
-log = function(text) {
+	};
+	
+}(window.util=window.util||{},jQuery));
+
+window.log = function(text){
 	console.log(text);
-};
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas width='200' height='200' id='canvas' style="border:1px solid #c3c3c3;margin-left: 701px;margin-top: 100px;"></canvas>
+	<script type="text/javascript">
+		var c=document.getElementById('canvas');
+		var cxt=c.getContext('2d');
+		// 设置线条
+		var linear=cxt.createLinearGradient(0,0,200,200);
+		linear.addColorStop(0,'red');
+		linear.addColorStop(1,'blue');
+		cxt.moveTo(10,10);
+		cxt.lineTo(90,10);
+		cxt.lineTo(100,100);
+		cxt.lineWidth=1;
+		cxt.strokeStyle = linear;
+		cxt.stroke();
+
+		// stroke设置边框
+		// fill设置填充物
+		
+		// 填充物
+		var lingrad = cxt.createLinearGradient(0,0,0,150);
+		lingrad.addColorStop(0,'#00ABEB');
+		lingrad.addColorStop(0.5,'#fff');
+		lingrad.addColorStop(0.5,'#66CC00');
+		lingrad.addColorStop(1,'#fff');
+		cxt.fillStyle=lingrad;
+		cxt.fillRect(10,10,130,130);
+
+		// 边框
+		var lingrad2 = cxt.createLinearGradient(0,50,0,95);
+		//0表示起始点，0.5表示中间点
+		lingrad2.addColorStop(0.5,'#000');
+		lingrad2.addColorStop(1,'rgba(0,0,0,0)');
+		cxt.strokeStyle=lingrad2;
+		cxt.strokeRect(50,50,50,50);
+
+		var ctx = document.getElementById('canvas').getContext('2d');
+	    for (var i=0;i<6;i++){
+			for (var j=0;j<6;j++){
+				ctx.strokeStyle = 'rgb(0,' + Math.floor(255-42.5*i) + ',' + Math.floor(255-42.5*j) + ')';
+				ctx.beginPath();
+				ctx.arc(12.5+j*25,12.5+i*25,10,0,Math.PI*2,true);
+				ctx.stroke();
+			}
+	    }
+	</script>
+</body>
+</html>
