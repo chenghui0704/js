@@ -239,8 +239,6 @@ Foo.method = function() {
 }
 
 
-
-
 for(var i = 0; i < 10; i++) {
     setTimeout(function() {
         console.log(i);  
@@ -422,5 +420,56 @@ setTimeout(function() {
 // 绝对不要使用字符串作为 setTimeout 或者 setInterval 的第一个参数， 这么写的代码明显质量很差。
 // 当需要向回调函数传递参数时，可以创建一个匿名函数，在函数内执行真实的回调函数。
 
+
+// http://www.cnblogs.com/mountain-mist/articles/1600995.html
+判断变量null或者undefined
+在 DOM 应用中，一般只需要用 (!exp) 来判断就可以了
+因为 DOM 应用中，可能返回 null，可能返回 undefined，如果具体判断 null 还是 undefined 会使程序过于复杂。
+
+
+$("#datepicker1").datepicker();
+$("#datepicker1").datepicker("setDate",new Date(Date.now()-24*3600*1000));
+
+//boilerplate
+(function(util,$,undefined){
+
+}(window.util=window.util||{},jQuery));
+
+
+//让方法立即执行
+//(1,2,3)逗号表达式，返回值：3
+(function(argument) {
+    alert(argument);
+})([(1,2,3)])
+
+apply,call
+对于第一个参数意义都一样，但对第二个参数：
+apply传入的是一个参数数组，也就是将多个参数组合成为一个数组传入，而call则作为call的参数传入（从第二个参数开始）。
+如 func.call(func1,var1,var2,var3)对应的apply写法为：func.apply(func1,[var1,var2,var3])
+
+
+// new
+> new('')
+TypeError: string is not a function
+    at repl:1:2
+    at REPLServer.self.eval (repl.js:110:21)
+    at Interface.<anonymous> (repl.js:239:12)
+    at Interface.emit (events.js:95:17)
+    at Interface._onLine (readline.js:202:10)
+    at Interface._line (readline.js:531:8)
+    at Interface._ttyWrite (readline.js:760:14)
+    at ReadStream.onkeypress (readline.js:99:10)
+    at ReadStream.emit (events.js:98:17)
+    at emitKey (readline.js:1095:12)
+> new Function
+[Function]
+> new(Function)
+[Function]
+> new(function(){})
+{}
+> var s=new(function(){})
+undefined
+> s
+{}
 
 

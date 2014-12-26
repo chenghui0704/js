@@ -1,27 +1,27 @@
-(function(util,$,undefined){
+(function(util, $, undefined) {
 	// json传入的必须是字典数据，不要传入字符串
 	util.ajax = function(url, json, callback) {
 		$.ajax({
-			type : "POST",
+			type    : "POST",
 			// 默认为异步
-			async : true,
-			url : url,
-			dataType : "json",
-			data:json,
+			async   : true,
+			url     : url,
+			dataType: "json",
+			data    :json,
+			success : callback,
 			//data : JSON.stringify(json),
 			//contentType : 'application/json; charset=utf-8',
-			success : callback,
 		});
 	};
 	// json传入的必须是字典数据，不要传入字符串
 	util.ajaxget = function(url, json, callback) {
 		$.ajax({
-			type : "GET",
+			type    : "GET",
 			//将get方法设置为同步
-			async : false,
-			url : url,
-			dataType : "json",
-			data : json,
+			async   : false,
+			url     : url,
+			dataType: "json",
+			data    : json,
 			success : callback,
 		});
 	};
@@ -216,6 +216,14 @@
 	//判断是否为数字
 	util.isNumber = function(val){
 		return /^\d+$/ig.test(val);
+	};
+	// 在node节点获取到焦点时，按下回车按钮，激活button的click事件
+	util.addReturnListener = function(node, button) {
+		$(node).keydown(function(e) {
+			if(e.keyCode == 13) {
+				$(button).click();
+			}
+		});
 	};
 	//生成翻页符
 	//当前数据个数
