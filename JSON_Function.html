@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+</head>
+<body>
+<script type="text/javascript">
+//JSON.stringify
+//作用：这个函数的作用主要是为了系列化对象的。 
+// 可能有些人对系列化这个词过敏，我的理解很简单。就是说把原来是对象的类型转换成字符串类型（或者更确切的说是json类型的）。就这么简单。打个比方说，你有一个类，那么你可以通过这个方法转换成相应的json类型的。很简单吧。 
+// 接着看。 
+// 语法： 
+// JSON.stringify(value [, replacer] [, space]) 
+// value：是必须要的字段。就是你输入的对象，比如数组啊，类啊等等。 
+// replacer：这个是可选的。它又分为2种方式，一种是方法，第二种是数组。 
+// 情况一：我们先说数据，通过我们后面的实验可以知道，它是和第一个有关系的。一般来说，我们系列化后的结果是通过键值对来进行表示的。 
+// 比如说： 
+// name:"lan",age:25 
+// 这种形式。 
+// 所以，如果这种形式的话，如果第二个的值在第一个存在，那么的话就以第二个的值做key，第一个值为value进行表示，如果不存在，sorry，忽略。【是不是有点抽象，我也这么觉得，不过你等一下看实验 就OK了。。呼呼。】 
+// 情况二：如果是方法，那很简单，就是说把系列化后的每一个对象（记住 是每一个）传进方法里面进行处理。 
+// space：很好理解，用什么来做分隔符的。 
+// 1.如果省略的话，那么显示出来的值 就没有分隔符。直接输出来 
+// 2.如果是一个数字的话，那么它就定义缩进几个字符，当然 如果大于10 ，则最大值为10. 
+// 3.如果是一些转义字符，比如“\t”，表示回车，那么它每行一个回车。 
+// 4.如果仅仅是字符串，OK，就在每行输出值的时候把这些字符串附加上去就OK。当然，最大长度也是10个字符。 
+
+//1.只有一个参数的情况下： 
+var student = new Object(); 
+student.name = "Lanny"; 
+student.age = 25; 
+student.location = "China"; 
+var json = JSON.stringify(student); 
+console.log(json);//{"name":"Lanny","age":25,"location":"China"}
+
+//2.第二个参数存在，并且第二个参数还是function的时候 
+var students = new Array() ; 
+students[0] = "Lanny"; 
+students[1] = "dong"; 
+students[2] = "I love you"; 
+var json = JSON.stringify(students,switchUpper); 
+function switchUpper(key, value) { 
+return value.toString().toUpperCase(); 
+} 
+console.log(json);//"LANNY,DONG,I LOVE YOU" 
+
+var json = JSON.stringify(students, function (key,value) { 
+return value.toString().toUpperCase(); 
+}); 
+console.log(json);//"LANNY,DONG,I LOVE YOU" 
+
+
+//3.第二个参数存在，并且第二个参数不是function，而是数组的时候。
+
+//3.1 【误区】如果第一个参数是数组，第二个参数也是数组的话，只显示第一个参数的值。比如： 
+var students = new Array() ; 
+students[0] = "Lanny"; 
+students[1] = "dong"; 
+students[2] = "I love you"; 
+var stu = new Array(); 
+stu[0] = "1"; 
+stu[1] = "2"; 
+var json = JSON.stringify(students,stu); 
+console.log(json); //["Lanny","dong","I love you"]
+
+//3.2 如果第一个是对象（这里说的对象就像在C#里面可以进行new的），第二个是数组的。
+var student = new Object(); 
+student.qq = "5485891512"; 
+student.name = "Lanny"; 
+student.age = 25; 
+
+var stu = new Array(); 
+stu[0] = "qq"; 
+stu[1] = "age"; 
+stu[2] = "Hi";//这个student对象里不存在。 
+
+var json = JSON.stringify(student,stu); 
+console.log(json);//{"qq":"5485891512","age":25}
+
+//4.第三个参数 
+//4.1.如果省略的话，那么显示出来的值 就没有分隔符。直接输出来 
+//4.2.如果是一个数字的话，那么它就定义缩进几个字符，当然 如果大于10 ，则最大值为10. 
+//4.3.如果是一些转义字符，比如“\t”，表示回车，那么它每行一个回车。
+//4.4.如果仅仅是字符串，OK，就在每行输出值的时候把这些字符串附加上去就OK。当然，最大长度也是10个字符。
+var student = new Object(); 
+student.qq = "5485891512"; 
+student.name = "Lanny"; 
+student.age = 25; 
+
+var stu = new Array(); 
+stu[0] = "qq"; 
+stu[1] = "age"; 
+stu[2] = "Hi"; 
+
+var json = JSON.stringify(student,stu); 
+console.log(json);//{"qq":"5485891512","age":25}
+
+
+var student = new Object(); 
+student.qq = "5485891512"; 
+student.name = "Lanny"; 
+student.age = 25; 
+
+var stu = new Array(); 
+stu[0] = "qq"; 
+stu[1] = "age"; 
+stu[2] = "Hi"; 
+
+var json = JSON.stringify(student,stu,100);//注意这里的100 
+console.log(json); 
+// {
+//           "qq": "5485891512",
+//           "age": 25
+// } 
+
+var json = JSON.stringify(student,stu,"HaiKou");
+console.log(json); 
+
+// {
+// HaiKou"qq": "5485891512",
+// HaiKou"age": 25
+// } 
+
+
+
+
+
+
+
+
+//JSON.parse
+//JSON.parse(text, reviver)
+
+// text
+// 必需。 一个有效的 JSON 字符串。
+
+// reviver
+// 可选。 一个转换结果的函数。 将为对象的每个成员调用此函数。 如果成员包含嵌套对象，则先于父对象转换嵌套对象。 对于每个成员，会发生以下情况：
+// 如果 reviver 返回一个有效值，则成员值将替换为转换后的值。
+// 如果 reviver 返回它接收的相同值，则不修改成员值。
+// 如果 reviver 返回 null 或 undefined，则删除成员。
+
+
+  
+      
+  //示例1：此示例使用 JSON.parse 将 JSON 字符串转换为对象  
+    var jsontext = '{"firstname":"Jesper","surname":"Aaberg","phone":["555-0100","555-0120"]}';  
+    var contact = JSON.parse(jsontext);  
+    console.log(contact.surname + ", " + contact.firstname + ", "+ contact.phone);  
+  //Aaberg, Jesper, 555-0100,555-0120
+       
+  //示例2：此示例使用 JSON.parse 反序列化 ISO 格式的日期字符串, 将返回Date格式对象。  
+    var jsontext2 = '{ "hiredate": "2008-01-01T12:00:00Z", "birthdate": "2008-12-25T12:00:00Z" }';  
+    var dates = JSON.parse(jsontext2, dateReviver);  
+    console.log(dates.birthdate.toUTCString());//Thu, 25 Dec 2008 12:00:00 GMT
+    function dateReviver(key, value) {  
+        var a;  
+        if (typeof value === 'string') {  
+            a = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.\d*)?)Z$/.exec(value);  
+            if (a) {  
+                return new Date(Date.UTC(+a[1], +a[2] - 1, +a[3], +a[4],  
+                                +a[5], +a[6]));  
+            }  
+        }  
+        return value;  
+    };  
+
+
+
+</script>
+</body>
+</html>
