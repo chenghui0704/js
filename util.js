@@ -62,19 +62,20 @@
 		}
 		for (var i = 0, n = 0; i < arr.length; i++) {
 			if (arr[i] != arr[dx]) {
-				arr[n++] = arr[i]
+				arr[n++] = arr[i];
 			}
 		}
-		arr.length -= 1
+		arr.length -= 1;
 	};
 	// 比较两个map是否相等
 	util.mapCompare = function(map1, map2) {
 		for ( var i in map1)
 			if (map1[i] != map2[i])
 				return false;
-		for ( var i in map2)
+		for (var i in map2) {
 			if (map2[i] != map1[i])
 				return false;
+		}
 		return true;
 	};
 	// 计算时间差，日期差
@@ -113,10 +114,10 @@
 	};
 	// 替换url中的指定参数值
 	util.replaceQueryString = function(key,value) {
-		var url=window.location.origin+window.location.pathname;
-		var splits=window.location.search.substring(1).split("&");
-		var b=false;
-		var prefix="?";
+		var url    = window.location.origin+window.location.pathname;
+		var splits = window.location.search.substring(1).split("&");
+		var b      = false;
+		var prefix = "?";
 		if(splits.length!=1||splits[0]!="")
 			for(var i in splits){
 				//i:'0'
@@ -229,20 +230,23 @@
 	//当前数据个数
 	//pageSize和currentPage的url参数名
 	//翻页符节点的ID：'#node'
-	util.setPageIdentifier = function(currentSize,pageSizeName,currentPageName,nodeName){
+	util.setPageIdentifier = function(currentSize, pageSizeName, currentPageName, nodeName) {
 		var pageSize;
-		var a=this.getQueryString(pageSizeName);
-		if(a==null||isNaN(Number(a)))
-			pageSize=10;
-		else 
-			pageSize=parseInt(a);
-
+		var a = this.getQueryString(pageSizeName);
+		if(a == null || isNaN(Number(a))) {
+			pageSize = 10;
+		}
+		else {
+			pageSize = parseInt(a);
+		}
 		var currentPage;
-		var b=this.getQueryString(currentPageName);
-		if(b==null||isNaN(Number(b)))
-			currentPage=1;
-		else 
-			currentPage=parseInt(b);
+		var b = this.getQueryString(currentPageName);
+		if(b == null || isNaN(Number(b))) {
+			currentPage = 1;
+		}
+		else {
+			currentPage = parseInt(b);
+		}
 
 		//当currentPage大于pageIdentifierCount时，出现翻页符
 		//上一页和下一页不受影响

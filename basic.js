@@ -76,7 +76,7 @@ Array.prototype.removevalue = function (val) {
     if (index > -1) {  
         this.splice(index, 1);  
     }  
-};  
+};
 
 //Display or hide the matched elements with a sliding motion.
 $("").slideToggle();
@@ -266,6 +266,10 @@ for(var i = 0; i < 10; i++) {
     })(i), 1000)
 }
 
+//清除timeout
+var t1 = setTimeout(function() {}, 10);
+clearTimeout(t1);
+
 // arguments 对象
 
 // JavaScript 中每个函数内都能访问一个特别变量 arguments。这个变量维护着所有传递到这个函数中的参数列表。
@@ -285,6 +289,8 @@ var SomeImportantThing;
 if (!SomeImportantThing) {
     SomeImportantThing = {};
 }
+// 或者
+SomeImportantThing = SomeImportantThing || {};
 
 
 // 推荐使用匿名包装器（译者注：也就是自执行的匿名函数）来创建命名空间。
@@ -411,7 +417,7 @@ bar();
 
 function foo(a, b, c) {}
 // 不要这样做
-setTimeout('foo(1,2, 3)', 1000)
+setTimeout('foo(1, 2, 3)', 1000)
 // 可以使用匿名函数完成相同功能
 setTimeout(function() {
     foo(1, 2, 3);
@@ -473,3 +479,21 @@ undefined
 {}
 
 
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-2.0.0.min.js">\x3C/script>')</script>
+上面，我们使用了“||”运算符判断window.jQuery是否为未定义类型，
+如果window.jQuery未定义执行后面的代码加载本地jQuery脚本，
+HTML5 Boilerplate就使用以上的方法处理CDN内容加载失败的情况。
+
+$.data('')得到的数据，如果是数字，则会转换成数值型，但是$.attr('data-*')则不会转成数值型，而会变成string型
+所以如果使用attr获取值，就使用＝＝判断，而不是＝＝＝
+
+
+
+jquery绑定事件用on，取消绑定用off
+$('document').on('click', '.selector', function(event) {
+    event.preventDefault();
+    /* Act on the event */
+});
+绑定一次用one

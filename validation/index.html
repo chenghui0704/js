@@ -1,0 +1,99 @@
+
+parsley.js
+https://github.com/guillaumepotier/Parsley.js
+
+another four validate-plugins
+http://jqueryvalidation.org/reference
+https://github.com/rickharrison/validate.js/
+https://github.com/jzaefferer/jquery-validation
+https://github.com/DiegoLopesLima/Validate
+
+docs here
+http://parsleyjs.org/doc/index.html#psly-validators-list
+
+
+<script>
+//避免引入的提示语样式干扰原有表单样式
+window.ParsleyConfig = {
+  errorsWrapper: '<span class="parsley-error"></span>',
+  errorTemplate: '<span></span>'
+};
+</script>
+
+<script src="${webapp}/js/bower/bower_components/parsleyjs/dist/parsley.js"></script>
+<script src="${webapp}/js/bower/bower_components/parsleyjs/src/i18n/zh_cn.js"></script>
+<!-- 必须写form -->
+<form id="parsley-form" data-parsley-validate>
+	<div class="row">
+        <div class="row-title"></div>
+        <div class="row-input">
+            <input type="text" value="" name="mname" data-parsley-required="true"  data-parsley-trigger="keyup" data-parsley-minlength="5" data-parsley-pattern="\d+" data-parsley-fuck="sss" data-parsley-fuck-message="sss">
+        </div>
+    </div>
+    <span class="save">保存</span>
+</form>
+
+<script type="text/javascript">
+//自定义方法
+window.ParsleyValidator
+  .addValidator('fuck', function (value, requirement) {
+    return 0 === value % requirement;
+  }, 32)//32是priority
+  .addMessage('en', 'fuck', 'This value should be a multiple of %s')
+  .addMessage('zh_cn', 'fuck', 'Cette valeur doit être un multiple de %s');
+</script>
+
+<script type="text/javascript">
+	$('.save').click(function(event) {
+		//可以把data-parsley-validate去掉
+	  $('#parsley-form').parsley().validate();
+	});
+	//在click事件中查看检查值
+	if(!$('#parsley-form').parsley().validate()) return false;
+</script>
+
+<!-- data-parsley-errors-container="#element" 将错误放到某个元素中 -->
+
+<!-- 
+data-parsley-required="true"
+data-parsley-required-message="必填项"
+data-parsley-trigger="keyup" 
+data-parsley-minlength="5" 
+data-parsley-pattern="\d+"
+data-parsley-pattern-message="\d+"
+data-parsley-fuck="sss" 
+data-parsley-fuck-message="sss"
+//手机号码
+data-parsley-pattern="/(^(([0\+]\d{2,3}-)?(0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$)|(^0{0,1}1[3|4|5|6|7|8|9][0-9]{9}$)/"
+data-parsley-errors-container="#element"
+data-parsley-error-message="my message"
+data-parsley-validation-threshold="10"默认是输入三个字符后开始提示
+data-parsley-type="email" 
+data-parsley-type="number" 
+data-parsley-type="integer" 
+data-parsley-type="digits" 
+data-parsley-type="alphanum" 
+data-parsley-type="url" 
+data-parsley-minlength="6" 
+data-parsley-maxlength="6" 
+data-parsley-length="[6, 10]"
+data-parsley-min="6"
+data-parsley-max="6"
+data-parsley-range="[6,10]"
+data-parsley-pattern="\d+"
+data-parsley-mincheck="3"
+data-parsley-maxcheck="3"
+data-parsley-check="[1,3]"
+data-parsley-equalto="#anotherfield"
+ -->
+
+
+
+
+
+
+
+
+
+
+
