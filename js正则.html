@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
+</head>
+<body>
+<script type="text/javascript">
+	var re=new RegExp();
+	//re=new RegExp("a");
+	//s.replace(new RegExp(ss/gm),'2d')
+	//re=new RegExp("a","i");//i忽略大小写g全文查找m多行查找
+	//正则表达式字面量的声明方式
+	console.log(/abc/gi.test("ABC"));//true
+	re=/abc/gi;
+	var str1="abc";
+	var str2="ABC";
+	console.log(re.test(str1));
+	console.log(re.test(str2));//false
+	re1=/^abc/i;
+	console.log(re1.test(str2));
+	re2=/^abc$/i;//^表示字符开始位置$表示字符结束位置
+	console.log(re2.test(str2));
+	console.log("分割线1");
+	str3="有一个 空格";
+	re3=/\s/;// \s匹配任何空白字符，包括空格、制表符、换页符等等
+	console.log(re3.test(str3));
+	re4=/^[a-z]/i;
+	str4="Abcde";
+	console.log(re4.test(str4));
+	//test返回布尔值，exec返回数组
+	str5="ubuntu 8";
+	var arr1=/^[a-z]+\s+\d+$/i.exec(str5);//+表示至少匹配一次
+	console.log(arr1[0]);
+	var arr2=/\d/.exec(str5);//只找其中的一个数字
+	console.log(arr2[0]);
+	var arr3=/\d+/.exec("das212");
+	console.log(arr3[0]);//212
+	//使用子匹配，在正则表达式中使用圆括号
+	re5=/^[a-z]+\s+(\d+)$/i;
+	arr4=re5.exec(str5);
+	console.log(arr4[0]);//全局匹配
+	console.log(arr4[1]);//子匹配
+	//当字符串不匹配re时,exec方法将返回null
+	arr5=/^[a-z]+\s+(\d+)\.(\d+)$/i.exec("ubuntu 8.10");
+	console.log(arr5[0]);
+	console.log(arr5[1]);
+	console.log(arr5[2]);
+
+	//string对象中的正则表达式方法
+	str6="some money";
+	console.log(str6.replace("some","much"));
+	//replace的第一个参数可以为正则表达式
+	console.log(str6.replace(/\s/,"%"));
+	console.log("some some             \tsome\t\f".replace(/\s+/,"$"));
+	console.log("some some             \tsome\t\f".replace(/\s+/g,"$"));
+	str6="a-bc-d";
+	console.log(str6.split("-"));
+	console.log(str6.split(/[^a-z]/i));//["a", "bc", "d"]
+	//^如果在[]外表示字符开始，在[]内表示一个负字符集
+	//匹配任何不在指定范围内的任意字符，这里将匹配除字母外的所有字符，即-
+	console.log(str6.split(/[a-z]/i));//["", "-", "", "-", ""]
+	//在字符串中查找时我们常用indexOf,与之对应用于正则查找的方法是search
+	str7 = "My age is 18.Golden age!";//年龄不是一定的,用indexOf不能查找它的位置
+	re6 = /\d+/;    
+	console.log(str7.search(re6));//返回查找到的字符串开始下标10，-1表示未找到
+	console.log("hello okamoto".match(/[A-Z]+/gi));//["hello", "okamoto"]
+
+	re7 = /\b[a-z]*\b/gi;//\b表示单词边界,*表明任意多个
+	str8 = "one two three four";    
+	console.log(str8.match(re7));//["one", "", "two", "", "three", "", "four", ""]
+	re8 = /\b[a-z]+\b/gi;//+表明至少一个
+	console.log(str8.match(re8));//["one", "two", "three", "four"]
+	console.log(re8.source);//\b[a-z]+\b
+
+	re9=/[A-Z]/i;
+	str9="hello okamoto";
+	console.log(re9.exec(str9));
+	console.log(RegExp.input);//hello okamoto
+	console.log(re9.exec("12"));//null
+	console.log(RegExp.input);//hello okamoto
+	console.log(re9.exec("abc"));
+	console.log(RegExp.input);//abc
+
+	//lastMatch 最后匹配的字符
+	console.log(RegExp.lastMatch);//a
+	console.log(/[a-z]/g.exec("abc"));
+	console.log(RegExp.lastMatch);//a
+	console.log(RegExp["$&"]);//$&是lastMatch的短名字
+	//lastParen 最后匹配的分组
+	re = /[a-z](\d+)/gi;    
+	str = "Class1 Class2 Class3";    
+	re.test(str);    
+	console.log(RegExp.lastParen);//1    因为test只要找到一处就可以返回true了
+	re.test(str);    
+	console.log(RegExp["$+"]);//2
+	console.log(str.match(re));//["s1", "s2", "s3"]
+	console.log(RegExp.lastParen);//3
+	console.log(RegExp["$+"]);//3
+
+	re = /[A-Z]/g;    
+	str = "123ABC456";
+	re.test(str);    
+	console.log(RegExp.leftContext);//123
+	console.log(RegExp.rightContext);//BC456
+	re.test(str);
+	console.log(RegExp["$`"]);//123A
+	console.log(RegExp["$'"]);//C456
+
+	//使用元字符注意事项:元字符是正则表达式的一部分，当我们要匹配正则表达式本身时，必须对这些元字符转义.下面是正则表达式用到的所有元字符( [ { \ ^ $ | ) ? * + . 
+
+	re = new RegExp("\\?");//若"\?"会出错，必须要双重转义
+	console.log(re.source);//\?
+	//ASCII方式用十六进制数来表示特殊字符    
+	var re = /^\x43\x4A$/;//将匹配CJ    
+	console.log(re.test("CJ"));//true    
+	//也可使用八进制方式    
+	re = /^\103\112$/;//将匹配CJ    
+	console.log(re.test("CJ"));//true    
+	//还可以使用Unicode编码    
+	re =/^\u0043\u004A$/;//使用 Unicode，必须使用u开头，接着是字符编码的四位16进制表现形式    
+	console.log(re.test("CJ"));    
+
+	//字符    描述 
+	// \n      换行符 
+	// \r      回车符 
+	// \t      制表符 
+	// \f      换页符（Tab） 
+	// \cX     与X对应的控制字符 
+	// \b      退格符(BackSpace) 
+	// \v      垂直制表符 
+	// \0      空字符("") 
+
+
+	//简单类    
+	var re = /[abc123]/;//将匹配abc123这6个字符中一个    
+	//负向类    
+	re = /[^abc]/;//将匹配除abc之外的一个字符    
+	//范围类    
+	re = /[a-b]/;//将匹配小写a-b 26个字母    
+	re = /[^0-9]/;//将匹配除0-9 10个字符之外的一个字符    
+	//组合类    
+	re = /[a-b0-9A-Z_]/;//将匹配字母，数字和下划线    
+
+	// 代码  	等同于                  		匹配 
+	// .     		IE下[^\n]，其它[^\n\r]  	匹配除换行符之外的任何一个字符 
+	// \d   		[0-9]                   		匹配数字 
+	// \D   		[^0-9]                  		匹配非数字字符 
+	// \s    		[ \n\r\t\f\x0B]        	 	匹配一个空白字符 
+	// \S    		[^ \n\r\t\f\x0B]      	  	匹配一个非空白字符 
+	// \w   		[a-zA-Z0-9_]            	   	匹配字母数字和下划线 
+	// \W   		[^a-zA-Z0-9_]        		匹配除字母数字下划线之外的字符 
+
+
+
+	// 量词(下表量词单个出现时皆是贪婪量词) 
+
+	// 代码  		描述 
+	// *     			匹配前面的子表达式零次或多次。例如，zo* 能匹配 "z" 以及 "zoo"。 * 等价于{0,}。 
+	// +     			匹配前面的子表达式一次或多次。例如，'zo+' 能匹配 "zo" 以及 "zoo"，但不能匹配 "z"。+ 等价于 {1,}。 
+	// ?     			匹配前面的子表达式零次或一次。例如，"do(es)?" 可以匹配 "do" 或 "does" 中的"do" 。? 等价于 {0,1}。 
+	// {n}   			n 是一个非负整数。匹配确定的 n 次。例如，'o{2}' 不能匹配 "Bob" 中的 'o'，但是能匹配 "food" 中的两个 o。 
+	// {n,}  			n 是一个非负整数。至少匹配n 次。例如，'o{2,}' 不能匹配 "Bob" 中的 'o'，但能匹配 "foooood" 中的所有 o。'o{1,}' 等价于 'o+'。'o{0,}' 则等价于 'o*'。 
+	// {n,m} 		m 和 n 均为非负整数，其中n <= m。最少匹配 n 次且最多匹配 m 次。刘， "o{1,3}" 将匹配 "fooooood" 中的前三个 o。'o{0,1}' 等价于 'o?'。请注意在逗号和两个数之间不能有空格。 
+
+	// 贪婪量词与惰性量词 
+
+	// 用贪婪量词进行匹配时，它首先会将整会字符串当成一个匹配，如果匹配的话就退出，如果不匹配，就截去最后一个字符进行匹配，如果不匹配，继续将最后一个字符截去进行匹配，直到有匹配为止。直到现在我们遇到的量词都是贪婪量词 
+	// 用惰性量词进行匹配时，它首先将第一个字符当成一个匹配，如果成功则退出，如果失败，则测试前两个字符，依些增加，直到遇到合适的匹配为止 
+
+	// 惰性量词仅仅在贪婪量词后面加个"?"而已,如"a+"是贪婪匹配的,"a+?"则是惰性的 
+
+	// JavaScript Code复制内容到剪贴板
+	// var str = "abc";    
+	// var re = /\w+/;//将匹配abc    
+	// re = /\w+?/;//将匹配a    
+
+	//多行模式 
+	var re = /[a-z]$/;
+	var str = "ab\ncdef";
+	console.log(str.replace(re,"#"));//ab\ncde#
+	re =/[a-z]$/m;  
+	console.log(str.replace(re,"#"));//a#\ncde#
+
+	//分组与非捕获性分组 
+
+	re = /abc{2}/;//将匹配abcc    
+	re = /(abc){2}/;//将匹配abcabc    
+	//上面的分组都是捕获性分组    
+	str = "abcabc";    
+	arr = re.exec(str);
+	console.log(arr[0]);//abcabc
+	console.log(arr[1]);//abc
+	//非捕获性分组 (?:)    
+	re = /(?:abc){2}/;    
+	arr = re.exec(str);
+	console.log(arr[0]);//abcabc
+	console.log(arr[1]);//undefined
+
+	//正常分组
+	re=/o{2}/;
+	str=re.exec("food");
+	console.log(str[0]);//oo
+	console.log(str[1]);//undefined
+	console.log(str[2]);//undefined
+	//捕获性分组
+	re=/(o){2}/;
+	str=re.exec("food");
+	console.log(str[0]);//oo
+	console.log(str[1]);//o
+	console.log(str[2]);//undefined
+	//非捕获性分组
+	re=/(?:o){2}/;
+	str=re.exec("food");
+	console.log(str[0]);//oo
+	console.log(str[1]);//undefined
+	console.log(str[2]);//undefined
+	//捕获性分组
+	re=/(oo){2}/;
+	str=re.exec("fooood");
+	console.log(str[0]);//oooo
+	console.log(str[1]);//oo
+	console.log(str[2]);//undefined
+
+	re = /^a|bc$/;//将匹配开始位置的a或结束位置的bc     
+	console.log(re.test("add"));//true    
+	console.log(re.test("dbc"));//true    
+	re = /^(a|bc)$/;//将匹配a或bc    
+	str ="bc";    
+	console.log(re.test(str));//true    
+
+
+	// 当包含分组的正则表达式进行过test,match,search这些方法之后，每个分组都被放在一个特殊的地方以备将来使用，这些存储是分组中的特殊值，我们称之为反向引用
+
+	var re = /(A?(B?(C?)))/;
+	/*上面的正则表达式将依次产生三个分组
+	(A?(B?(C?))) 最外面的
+	(B?(C?))
+	(C?)*/
+	str = "ABC";
+	re.test(str);//反向引用被存储在RegExp对象的静态属性$1—$9中    
+	console.log(RegExp.$1+"\n"+RegExp.$2+"\n"+RegExp.$3);
+	//反向引用也可以在正则表达式中使用\1 ,\2...这类的形式使用    
+	re = /\d+(\D)\d+\1\d+/;//\1指的是(\D)，代表前一个分组相同的匹配结果字符
+	str = "2008-1-1";    
+	console.log(re.test(str));//true
+	str = "2008-4_3";
+	console.log(re.test(str));//false
+
+
+	re = /(\d)\s(\d)/;    
+	str = "1234 5678";    
+	console.log(str.replace(re,"$2 $1"));//1235 4678
+	//在这个里面$1表示第一个分组4,$2则表示5
+	console.log(RegExp.$1+"\n"+RegExp.$2);//4\n5
+
+
+	// 正向前瞻,用来捕获出现在特定字符之前的字符,只有当字符后面跟着某个特定字符才去捕获它。
+	// 负向前瞻，它用匹配只有当字符后面不跟着某个特定字符时才去匹配它。
+	// 在执行前瞻和负向前瞻之类的运算时，正则表达式引擎会留意字符串后面的部分，然而却不移动index。
+
+	//正向前瞻(?=)
+	re = /([a-z]+(?=\d))/i;
+	//我们要匹配后面跟一个数字的单词，然后将单词返回，而不要返回数字
+	str = "abc every1 abc";
+	console.log(re.test(str));//true
+	console.log(RegExp.$1);//every
+	console.log(re.lastIndex);//0
+	//使用前瞻的好处是,前瞻的内容(?=\d)并不会当成一次匹配，下次匹配仍从它开始//负向前瞻(?!)
+	re = /([a-z]+(?!\d))/i;
+	//将匹配后面不包含数字的字母,并且不会返回(?!\d)中的内容    
+	str = "one2 two2";
+	console.log(re.test(str));//true
+	console.log(RegExp.$1);//on  指针到index0时满足条件，此时RegExp.$1等于o，(?!\d)等于n；指针继续指到index1，此时RegExp.$1等于on，(?!\d)等于e；指针继续指到index2，由于(?!\d)指到了数字，不满足re的匹配，匹配过程结束。因此RegExp.$1等于on。
+
+	re.test("one two2");
+	console.log(RegExp.$1);//one
+
+	/([a-z]+)/i.test("one1 two2");
+	console.log(RegExp.$1);//one
+	/([a-z]+(?!\d))/i.test("one1 two");
+	console.log(RegExp.$1);//on
+
+	re=/abc/gi;
+	console.log(re.test("ABC"));//true
+	console.log(re.test("abc"));//false
+	console.log(re.test("ABC"));//true
+
+	re=/abc/gi;
+	console.log(re.test("ABC"));//true
+	console.log(re.lastIndex);//3
+	re.lastIndex=0;
+	console.log(re.test("abc"));//true
+	re.lastIndex=0;
+	console.log(re.test("ABC"));//true
+
+	console.log(/abc/gi.test("ABC"));//true
+	console.log(/abc/gi.test("abc"));//true
+	console.log(/abc/gi.test("ABC"));//true
+
+	//每个正则表达式都有一个 lastIndex 属性，用于记录上一次匹配结束的位置，那么下一次再调用 test 的时候， 就会从第lastIndex个字符之后继续搜索。解决办法，将正则表达式的 lastIndex 属性设置为0
+
+	//new RegExp()的方法：exec(String);test(String);source;lastIndex;
+	//RegExp的静态方法:input;lastMatch;lastParen;leftContent;rightContent;
+	//字符串的正则表达式相关方法：replace;split;search;match;
+</script>
+</body>
+</html>
